@@ -42,7 +42,17 @@ input,select,textarea{font-family:inherit;font-size:14px;}
 .brand{padding:20px 18px 14px;border-bottom:1px solid var(--border);}
 .brand h1{font-size:18px;color:var(--teal-dark);}
 .brand p{margin:4px 0 0;font-size:12px;color:var(--text-muted);}
-.nav-group{padding:14px 10px 4px;}
+
+/* role switcher tabs */
+.role-tabs{display:flex;padding:10px 10px 0;gap:6px;}
+.role-tab{flex:1;padding:8px 0;border:none;background:var(--surface-2);border-radius:8px 8px 0 0;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-muted);transition:background .2s ease,color .2s ease;border-bottom:2px solid transparent;}
+.role-tab.active{background:var(--surface);color:var(--teal);border-bottom-color:var(--teal);}
+.role-tab:hover:not(.active){background:var(--bg);}
+
+/* nav group animated wrapper */
+.nav-group{padding:6px 10px 4px;}
+.nav-group-content{overflow:hidden;transition:max-height .3s cubic-bezier(0.22,1,0.36,1),opacity .25s ease;max-height:600px;opacity:1;}
+.nav-group-content.collapsed{max-height:0;opacity:0;}
 .nav-group-label{display:flex;align-items:center;gap:8px;padding:4px 10px 8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;}
 .nav-group-label.admin{color:var(--navy);}
 .nav-group-label.staff{color:var(--coral);}
@@ -177,6 +187,137 @@ input:checked + .slider:before{transform:translateX(16px);}
   #menu-btn{display:inline-flex !important;}
 }
 #menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:8px;width:34px;height:34px;align-items:center;justify-content:center;margin-right:8px;}
+
+/* ===== ANIMATIONS ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* page content fade+slide */
+@keyframes viewFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.view-enter { animation: viewFadeIn 220ms ease-out both; }
+
+/* card stagger entrance */
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-stagger { animation: cardSlideUp 200ms ease-out both; }
+
+/* card hover lift */
+.card-hover {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  will-change: transform;
+}
+.card-hover:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(20, 40, 35, 0.08);
+}
+
+/* table row entrance */
+@keyframes rowFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.row-enter { animation: rowFadeIn 180ms ease-out both; }
+
+/* table row collapse-out */
+@keyframes rowCollapse {
+  from { max-height: 60px; opacity: 1; }
+  to { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
+}
+.row-exit { animation: rowCollapse 200ms ease-in forwards; overflow: hidden; }
+
+/* badge pulse on status change */
+@keyframes badgePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.badge-pulse { animation: badgePulse 250ms ease-out; }
+
+/* modal backdrop fade */
+@keyframes backdropFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.backdrop-enter { animation: backdropFade 200ms ease-out both; }
+
+/* modal scale in */
+@keyframes modalScaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-enter { animation: modalScaleIn 200ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* toast slide in + out */
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastSlideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(20px); }
+}
+.toast { animation: toastSlideIn 200ms ease-out both; }
+.toast-exit { animation: toastSlideOut 180ms ease-in forwards; }
+
+/* shake for form validation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.shake { animation: shake 300ms ease-out; }
+
+/* loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--bg) 50%, var(--surface-2) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+/* sidebar overlay */
+@keyframes overlayFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.sidebar-overlay-enter { animation: overlayFade 200ms ease-out both; }
+
+/* bar chart grow */
+@keyframes barGrow {
+  from { transform: scaleY(0); transform-origin: bottom; }
+  to { transform: scaleY(1); transform-origin: bottom; }
+}
+.bar-grow { animation: barGrow 400ms ease-out both; }
 </style>
 </head>
 <body>
@@ -188,18 +329,24 @@ input:checked + .slider:before{transform:translateX(16px);}
       <p>Admin Hospital Module</p>
     </div>
 
-    <div class="nav-group">
-      <div class="nav-group-label admin">● Admin</div>
-      <button class="nav-item active" data-view="admin-dashboard"><span class="dot"></span>Admin dashboard</button>
-      <button class="nav-item" data-view="admin-profile"><span class="dot"></span>Hospital profile</button>
-      <button class="nav-item" data-view="admin-branding"><span class="dot"></span>Branding</button>
-      <button class="nav-item" data-view="admin-departments"><span class="dot"></span>Departments</button>
-      <button class="nav-item" data-view="admin-doctors"><span class="dot"></span>Doctors</button>
-      <button class="nav-item" data-view="admin-schedules"><span class="dot"></span>Schedules</button>
-      <button class="nav-item" data-view="admin-availability"><span class="dot"></span>Availability</button>
-      <button class="nav-item" data-view="admin-appointments"><span class="dot"></span>Appointment management</button>
-      <button class="nav-item" data-view="admin-staff"><span class="dot"></span>Staff management</button>
-      <button class="nav-item" data-view="admin-analytics"><span class="dot"></span>Analytics</button>
+    <div class="role-tabs">
+      <button class="role-tab active" data-role="admin">● Admin</button>
+      <button class="role-tab" data-role="staff">● Staff</button>
+    </div>
+
+    <div class="nav-group" id="admin-nav">
+      <div class="nav-group-content">
+        <button class="nav-item active" data-view="admin-dashboard"><span class="dot"></span>Admin dashboard</button>
+        <button class="nav-item" data-view="admin-profile"><span class="dot"></span>Hospital profile</button>
+        <button class="nav-item" data-view="admin-branding"><span class="dot"></span>Branding</button>
+        <button class="nav-item" data-view="admin-departments"><span class="dot"></span>Departments</button>
+        <button class="nav-item" data-view="admin-doctors"><span class="dot"></span>Doctors</button>
+        <button class="nav-item" data-view="admin-schedules"><span class="dot"></span>Schedules</button>
+        <button class="nav-item" data-view="admin-availability"><span class="dot"></span>Availability</button>
+        <button class="nav-item" data-view="admin-appointments"><span class="dot"></span>Appointment management</button>
+        <button class="nav-item" data-view="admin-staff"><span class="dot"></span>Staff management</button>
+        <button class="nav-item" data-view="admin-analytics"><span class="dot"></span>Analytics</button>
+      </div>
     </div>
 
     <div class="pulse-divider">
@@ -209,21 +356,22 @@ input:checked + .slider:before{transform:translateX(16px);}
       </svg>
     </div>
 
-    <div class="nav-group">
-      <div class="nav-group-label staff">● Staff</div>
-      <button class="nav-item" data-view="staff-dashboard"><span class="dot"></span>Staff dashboard</button>
-      <button class="nav-item" data-view="staff-today"><span class="dot"></span>Today's appointments</button>
-      <button class="nav-item" data-view="staff-checkin"><span class="dot"></span>Patient check-in</button>
-      <button class="nav-item" data-view="staff-queue"><span class="dot"></span>Queue management</button>
-      <button class="nav-item" data-view="staff-availability"><span class="dot"></span>Doctor availability</button>
-      <button class="nav-item" data-view="staff-profile"><span class="dot"></span>Staff profile / notifications</button>
+    <div class="nav-group" id="staff-nav" style="display:none;">
+      <div class="nav-group-content">
+        <button class="nav-item" data-view="staff-dashboard"><span class="dot"></span>Staff dashboard</button>
+        <button class="nav-item" data-view="staff-today"><span class="dot"></span>Today's appointments</button>
+        <button class="nav-item" data-view="staff-checkin"><span class="dot"></span>Patient check-in</button>
+        <button class="nav-item" data-view="staff-queue"><span class="dot"></span>Queue management</button>
+        <button class="nav-item" data-view="staff-availability"><span class="dot"></span>Doctor availability</button>
+        <button class="nav-item" data-view="staff-profile"><span class="dot"></span>Staff profile / notifications</button>
+      </div>
     </div>
   </aside>
 
   <main id="main">
     <div id="topbar">
       <div style="display:flex;align-items:center;">
-        <button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <button id="menu-btn">☰</button>
         <div class="left">
           <h2 id="viewTitle">Admin dashboard</h2>
           <p id="viewSub">Overview of hospital operations</p>
@@ -332,7 +480,11 @@ function toast(msg, isErr){
   t.className = 'toast' + (isErr ? ' err' : '');
   t.textContent = msg;
   wrap.appendChild(t);
-  setTimeout(()=>t.remove(), 3200);
+  setTimeout(() => {
+    t.classList.add('toast-exit');
+    t.addEventListener('animationend', () => t.remove(), { once: true });
+    setTimeout(() => { if (t.parentNode) t.remove(); }, 300);
+  }, 3000);
 }
 function fmtDate(d){ return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}); }
 function docName(id){ const d = state.doctors.find(x=>x.id===id); return d ? d.name : '—'; }
@@ -340,19 +492,141 @@ function depName(id){ const d = state.departments.find(x=>x.id===id); return d ?
 function todayStr(){ return new Date().toISOString().slice(0,10); }
 function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+/* ================= ANIMATION UTILITIES ================= */
+const anim = {
+  reduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+
+  fadeInUp(el, opts = {}) {
+    const { delay = 0, duration = 200, offsetY = 8 } = opts;
+    if (this.reduced) return;
+    el.animate([
+      { opacity: 0, transform: `translateY(${offsetY}px)` },
+      { opacity: 1, transform: 'translateY(0)' }
+    ], { duration, delay, easing: 'ease-out', fill: 'forwards' });
+  },
+
+  staggerIn(parent, selector, opts = {}) {
+    const { stagger = 50, duration = 200, offsetY = 8 } = opts;
+    if (this.reduced) return;
+    const els = parent.querySelectorAll(selector);
+    els.forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.willChange = 'opacity, transform';
+      this.fadeInUp(el, { delay: i * stagger, duration, offsetY });
+    });
+  },
+
+  scaleIn(el, opts = {}) {
+    if (this.reduced) return;
+    el.animate([
+      { opacity: 0, transform: 'scale(0.95)' },
+      { opacity: 1, transform: 'scale(1)' }
+    ], { duration: opts.duration || 200, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+  },
+
+  shake(el) {
+    if (this.reduced) return;
+    el.animate([
+      { transform: 'translateX(0)' },
+      { transform: 'translateX(-6px)' },
+      { transform: 'translateX(6px)' },
+      { transform: 'translateX(-4px)' },
+      { transform: 'translateX(4px)' },
+      { transform: 'translateX(0)' }
+    ], { duration: 300, easing: 'ease-out' });
+  },
+
+  fadeOut(el, opts = {}) {
+    if (this.reduced) return Promise.resolve();
+    return el.animate([
+      { opacity: 1, transform: 'scale(1)' },
+      { opacity: 0, transform: 'scale(0.97)' }
+    ], { duration: opts.duration || 150, easing: 'ease-in', fill: 'forwards' }).finished;
+  },
+
+  collapseOut(el, opts = {}) {
+    if (this.reduced) return Promise.resolve();
+    return el.animate([
+      { maxHeight: el.scrollHeight + 'px', opacity: 1 },
+      { maxHeight: '0px', opacity: 0 }
+    ], { duration: opts.duration || 200, easing: 'ease-in', fill: 'forwards' }).finished;
+  },
+
+  countUp(el, target, opts = {}) {
+    if (this.reduced) { el.textContent = target; return; }
+    const duration = opts.duration || 800;
+    const start = performance.now();
+    const step = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  },
+
+  slideInLeft(el, opts = {}) {
+    if (this.reduced) return;
+    el.animate([
+      { transform: 'translateX(-100%)' },
+      { transform: 'translateX(0)' }
+    ], { duration: opts.duration || 250, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+  },
+
+  pulse(el) {
+    if (this.reduced) return;
+    el.animate([
+      { transform: 'scale(1)' },
+      { transform: 'scale(1.15)' },
+      { transform: 'scale(1)' }
+    ], { duration: 250, easing: 'ease-out' });
+  }
+};
+
 async function persistAndRender(msg){
   await saveState();
   if(msg) toast(msg);
   render();
 }
 
+/* ================= SKELETON LOADING ================= */
+function showSkeleton(container, count){
+  count = count || 3;
+  const skels = [];
+  for (let i = 0; i < count; i++) {
+    skels.push('<div class="card" style="margin-bottom:14px;">' +
+      '<div class="skeleton" style="height:14px;width:40%;margin-bottom:10px;"></div>' +
+      '<div class="skeleton" style="height:20px;width:60%;margin-bottom:8px;"></div>' +
+      '<div class="skeleton" style="height:12px;width:80%;"></div></div>');
+  }
+  container.innerHTML = skels.join('');
+}
+
 /* ================= MODAL HELPERS ================= */
 function openModal(html){
-  document.getElementById('modalBody').innerHTML = html;
-  document.getElementById('overlay').classList.add('open');
+  const overlay = document.getElementById('overlay');
+  const modal = document.getElementById('modalBody');
+  modal.innerHTML = html;
+  overlay.classList.add('open');
+  overlay.classList.add('backdrop-enter');
+  modal.classList.add('modal-enter');
 }
 function closeModal(){
-  document.getElementById('overlay').classList.remove('open');
+  const overlay = document.getElementById('overlay');
+  const modal = document.getElementById('modalBody');
+  if (!anim.reduced) {
+    modal.animate([
+      { opacity: 1, transform: 'scale(1)' },
+      { opacity: 0, transform: 'scale(0.95)' }
+    ], { duration: 150, easing: 'ease-in', fill: 'forwards' }).finished.then(() => {
+      overlay.classList.remove('open', 'backdrop-enter');
+      modal.classList.remove('modal-enter');
+      modal.innerHTML = '';
+    });
+  } else {
+    overlay.classList.remove('open');
+    modal.innerHTML = '';
+  }
 }
 document.getElementById('overlay').addEventListener('click', e=>{
   if(e.target.id === 'overlay') closeModal();
@@ -416,7 +690,28 @@ function render(){
     'staff-profile': renderStaffProfile
   };
   c.innerHTML = renderers[currentView] ? renderers[currentView]() : '<div class="empty">View not found.</div>';
+
+  // page transition fade+slide
+  const viewEl = c.firstElementChild;
+  if (viewEl) viewEl.classList.add('view-enter');
+
   wireDynamicHandlers();
+
+  // stagger cards, rows, queue items + animate bars + count up numbers
+  requestAnimationFrame(() => {
+    const content = document.getElementById('content');
+    anim.staggerIn(content, '.stat-card', { stagger: 50, duration: 200 });
+    anim.staggerIn(content, '.card:not(.stat-card)', { stagger: 50, duration: 200, offsetY: 10 });
+    anim.staggerIn(content, 'tbody tr', { stagger: 40, duration: 180, offsetY: 4 });
+    anim.staggerIn(content, '.queue-item', { stagger: 50, duration: 200 });
+    content.querySelectorAll('.bar[data-target]').forEach(bar => {
+      requestAnimationFrame(() => { bar.style.height = bar.dataset.target + 'px'; });
+    });
+    content.querySelectorAll('.stat-card .value').forEach(el => {
+      const target = parseInt(el.textContent, 10);
+      if (!isNaN(target) && target > 0) anim.countUp(el, target);
+    });
+  });
 }
 
 /* ================= ADMIN: DASHBOARD ================= */
@@ -447,7 +742,7 @@ function weekBarChart(){
   return `<div class="bar-chart">${days.map((d,i)=>`
     <div class="bar-col">
       <div class="bar-value">${counts[i]}</div>
-      <div class="bar" style="height:${Math.max(6,(counts[i]/max)*120)}px"></div>
+      <div class="bar" data-target="${Math.max(6,(counts[i]/max)*120)}" style="height:6px"></div>
       <div class="bar-label">${new Date(d).toLocaleDateString('en-GB',{weekday:'short'})}</div>
     </div>`).join('')}</div>`;
 }
@@ -533,9 +828,15 @@ function editDepartment(id){
 }
 async function saveDepartment(id){
   const name = document.getElementById('m_name').value.trim();
-  if(!name){ toast('Department name is required.', true); return; }
+  if(!name){
+    const field = document.getElementById('m_name').closest('.field');
+    if (field) anim.shake(field);
+    toast('Department name is required.', true); return;
+  }
   const desc = document.getElementById('m_desc').value.trim();
   const head = document.getElementById('m_head').value.trim();
+  const btn = document.querySelector('.modal-actions .btn-primary');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving...'; }
   if(id){
     const d = state.departments.find(x=>x.id===id);
     d.name=name; d.description=desc; d.head=head;
@@ -546,6 +847,8 @@ async function saveDepartment(id){
   await persistAndRender('Department saved');
 }
 async function deleteDepartment(id){
+  const row = document.querySelector(`[onclick="deleteDepartment('${id}')"]`)?.closest('tr');
+  if (row && !anim.reduced) await anim.collapseOut(row);
   state.departments = state.departments.filter(x=>x.id!==id);
   await persistAndRender('Department deleted');
 }
@@ -590,11 +893,17 @@ function editDoctor(id){
 }
 async function saveDoctor(id){
   const name = document.getElementById('m_name').value.trim();
-  if(!name){ toast('Doctor name is required.', true); return; }
+  if(!name){
+    const field = document.getElementById('m_name').closest('.field');
+    if (field) anim.shake(field);
+    toast('Doctor name is required.', true); return;
+  }
   const specialization = document.getElementById('m_spec').value.trim();
   const departmentId = document.getElementById('m_dep').value;
   const phone = document.getElementById('m_phone').value.trim();
   const initials = name.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  const btn = document.querySelector('.modal-actions .btn-primary');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving...'; }
   if(id){
     const d = state.doctors.find(x=>x.id===id);
     d.name=name; d.specialization=specialization; d.departmentId=departmentId; d.phone=phone; d.photoInitials=initials;
@@ -605,6 +914,8 @@ async function saveDoctor(id){
   await persistAndRender('Doctor saved');
 }
 async function deleteDoctor(id){
+  const row = document.querySelector(`[onclick="deleteDoctor('${id}')"]`)?.closest('tr');
+  if (row && !anim.reduced) await anim.collapseOut(row);
   state.doctors = state.doctors.filter(x=>x.id!==id);
   await persistAndRender('Doctor removed');
 }
@@ -706,9 +1017,17 @@ function filterAppointments(input){
 }
 async function setApptStatus(id, status){
   const a = state.appointments.find(x=>x.id===id);
+  const prevStatus = a.status;
   a.status = status;
   state.notifications.unshift({id:uid('ntf'), text:`Appointment for ${a.patientName} marked ${status}`, time:Date.now()});
   await persistAndRender('Appointment updated');
+  // pulse the badge that changed
+  if (prevStatus !== status) {
+    const badges = document.querySelectorAll('.badge');
+    badges.forEach(b => {
+      if (b.textContent.trim() === status) anim.pulse(b);
+    });
+  }
 }
 
 /* ================= ADMIN: STAFF ================= */
@@ -752,11 +1071,17 @@ function editStaff(id){
 }
 async function saveStaff(id){
   const name = document.getElementById('m_name').value.trim();
-  if(!name){ toast('Name is required.', true); return; }
+  if(!name){
+    const field = document.getElementById('m_name').closest('.field');
+    if (field) anim.shake(field);
+    toast('Name is required.', true); return;
+  }
   const role = document.getElementById('m_role').value.trim();
   const departmentId = document.getElementById('m_dep').value;
   const shift = document.getElementById('m_shift').value.trim();
   const phone = document.getElementById('m_phone').value.trim();
+  const btn = document.querySelector('.modal-actions .btn-primary');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving...'; }
   if(id){
     const s = state.staff.find(x=>x.id===id);
     s.name=name; s.role=role; s.departmentId=departmentId; s.shift=shift; s.phone=phone;
@@ -767,6 +1092,8 @@ async function saveStaff(id){
   await persistAndRender('Staff member saved');
 }
 async function deleteStaff(id){
+  const row = document.querySelector(`[onclick="deleteStaff('${id}')"]`)?.closest('tr');
+  if (row && !anim.reduced) await anim.collapseOut(row);
   state.staff = state.staff.filter(x=>x.id!==id);
   await persistAndRender('Staff member removed');
 }
@@ -782,12 +1109,12 @@ function renderAdminAnalytics(){
     <div class="card">
       <h3 style="font-size:14px;margin-bottom:12px;">Appointments by department</h3>
       <div class="bar-chart">${byDept.map(x=>`
-        <div class="bar-col"><div class="bar-value">${x.count}</div><div class="bar" style="height:${Math.max(6,(x.count/maxDept)*120)}px"></div><div class="bar-label">${escapeHtml(x.name).slice(0,10)}</div></div>`).join('') || '<div class="empty">No data yet.</div>'}</div>
+        <div class="bar-col"><div class="bar-value">${x.count}</div><div class="bar" data-target="${Math.max(6,(x.count/maxDept)*120)}" style="height:6px"></div><div class="bar-label">${escapeHtml(x.name).slice(0,10)}</div></div>`).join('') || '<div class="empty">No data yet.</div>'}</div>
     </div>
     <div class="card">
       <h3 style="font-size:14px;margin-bottom:12px;">Appointments by status</h3>
       <div class="bar-chart">${byStatus.map(x=>`
-        <div class="bar-col"><div class="bar-value">${x.count}</div><div class="bar" style="height:${Math.max(6,(x.count/maxStatus)*120)}px;background:var(--coral);"></div><div class="bar-label">${x.name}</div></div>`).join('')}</div>
+        <div class="bar-col"><div class="bar-value">${x.count}</div><div class="bar" data-target="${Math.max(6,(x.count/maxStatus)*120)}" style="height:6px;background:var(--coral);"></div><div class="bar-label">${x.name}</div></div>`).join('')}</div>
     </div>
   </div>
   <div class="section-title"><h3>This week's trend</h3></div>
@@ -871,7 +1198,7 @@ function renderQueueList(list, showAll){
     const waitMin = Math.max(0, Math.round((Date.now()-q.addedAt)/60000));
     const statusBadge = q.status==='waiting' ? 'pending' : (q.status==='in-progress' ? 'confirmed' : 'completed');
     return `
-    <div class="queue-item">
+    <div class="queue-item" data-queue-id="${q.id}">
       <div class="queue-num">${i+1}</div>
       <div class="info">
         <div class="pname">${escapeHtml(q.patientName)}</div>
@@ -903,7 +1230,17 @@ async function moveQueue(id, dir){
 }
 async function setQueueStatus(id, status){
   const q = state.queue.find(x=>x.id===id);
+  const prevStatus = q.status;
   q.status = status;
+  // pulse animation on status change
+  if (prevStatus !== status && !anim.reduced) {
+    const el = document.querySelector(`[data-queue-id="${id}"]`);
+    if (el) {
+      el.style.transition = 'background-color 250ms ease, transform 250ms ease';
+      el.style.transform = 'scale(1.02)';
+      setTimeout(() => { el.style.transform = ''; }, 250);
+    }
+  }
   await persistAndRender(status==='done' ? 'Patient marked done' : 'Queue updated');
 }
 
@@ -961,7 +1298,81 @@ function filterTable(input, tableId){
   const rows = document.querySelectorAll('#'+tableId+' tbody tr');
   rows.forEach(r=>{ r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; });
 }
-function wireDynamicHandlers(){ /* reserved for future direct listeners */ }
+function wireDynamicHandlers(){
+  // card hover lift
+  document.querySelectorAll('.card').forEach(c => c.classList.add('card-hover'));
+
+  // role tab switcher (Admin / Staff)
+  const roleTabs = document.querySelectorAll('.role-tab');
+  if (roleTabs.length && !roleTabs[0]._bound) {
+    roleTabs.forEach(tab => {
+      tab._bound = true;
+      tab.addEventListener('click', () => {
+        const role = tab.dataset.role;
+        // update active tab
+        roleTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const adminNav = document.getElementById('admin-nav');
+        const staffNav = document.getElementById('staff-nav');
+        const adminContent = adminNav.querySelector('.nav-group-content');
+        const staffContent = staffNav.querySelector('.nav-group-content');
+
+        if (role === 'admin') {
+          // collapse staff, show admin
+          staffContent.classList.add('collapsed');
+          setTimeout(() => {
+            staffNav.style.display = 'none';
+            adminNav.style.display = '';
+            // force reflow before removing collapsed
+            adminContent.offsetHeight;
+            adminContent.classList.remove('collapsed');
+            // stagger in nav items
+            anim.staggerIn(adminContent, '.nav-item', { stagger: 30, duration: 150, offsetY: 6 });
+          }, 200);
+        } else {
+          // collapse admin, show staff
+          adminContent.classList.add('collapsed');
+          setTimeout(() => {
+            adminNav.style.display = 'none';
+            staffNav.style.display = '';
+            staffContent.offsetHeight;
+            staffContent.classList.remove('collapsed');
+            anim.staggerIn(staffContent, '.nav-item', { stagger: 30, duration: 150, offsetY: 6 });
+          }, 200);
+        }
+      });
+    });
+  }
+
+  // sidebar mobile drawer
+  const menuBtn = document.getElementById('menu-btn');
+  if (menuBtn && !menuBtn._bound) {
+    menuBtn._bound = true;
+    menuBtn.addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('open');
+      if (sidebar.classList.contains('open')) {
+        anim.slideInLeft(sidebar);
+        let overlay = document.getElementById('sidebar-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.id = 'sidebar-overlay';
+          overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:39;';
+          overlay.className = 'sidebar-overlay-enter';
+          overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.remove();
+          });
+          document.body.appendChild(overlay);
+        }
+      } else {
+        const overlay = document.getElementById('sidebar-overlay');
+        if (overlay) overlay.remove();
+      }
+    });
+  }
+}
 
 /* ================= CLOCK ================= */
 function tickClock(){
