@@ -8,24 +8,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F6F8F7;
-  --surface:#FFFFFF;
-  --surface-2:#EEF3F1;
-  --teal:#0E6F5C;
-  --teal-dark:#095045;
-  --teal-light:#E1F5EE;
-  --navy:#16324F;
-  --navy-light:#E7EDF3;
-  --coral:#E8734A;
-  --coral-light:#FBEAE2;
-  --text:#1C2B27;
-  --text-muted:#64756F;
-  --border:#DEE6E2;
-  --danger:#C0392B;
-  --danger-light:#FBE8E6;
-  --ok:#2E7D5B;
+  --bg:#070D0A;
+  --surface:rgba(255,255,255,0.04);
+  --surface-2:rgba(255,255,255,0.07);
+  --surface-3:rgba(255,255,255,0.10);
+  --teal:#00D4AA;
+  --teal-dark:#00B894;
+  --teal-light:rgba(0,212,170,0.12);
+  --teal-glow:rgba(0,212,170,0.25);
+  --navy:#0D1A12;
+  --navy-light:#1A2E22;
+  --coral:#FF8C6B;
+  --coral-light:rgba(255,140,107,0.12);
+  --text:#D8E8E0;
+  --text-muted:#6B8A7A;
+  --border:rgba(255,255,255,0.08);
+  --danger:#FF6B6B;
+  --danger-light:rgba(255,107,107,0.12);
+  --ok:#00D4AA;
   --radius:10px;
-  --shadow:0 1px 2px rgba(20,40,35,0.04);
+  --shadow:0 1px 3px rgba(0,0,0,0.3);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.4);
 }
 *{box-sizing:border-box;}
 body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;}
@@ -38,9 +41,9 @@ input,select,textarea{font-family:inherit;font-size:14px;}
 #app{display:flex;min-height:100vh;}
 
 /* SIDEBAR */
-#sidebar{width:250px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;transition:margin-left .25s ease;}
-.brand{padding:20px 18px 14px;border-bottom:1px solid var(--border);}
-.brand h1{font-size:18px;color:var(--teal-dark);}
+#sidebar{width:250px;flex-shrink:0;background:rgba(10,18,14,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;transition:margin-left .25s ease;}
+.brand{padding:20px 18px 14px;border-bottom:1px solid var(--border);background:rgba(0,212,170,0.03);}
+.brand h1{font-size:18px;color:var(--teal);text-shadow:0 0 20px rgba(0,212,170,0.2);}
 .brand p{margin:4px 0 0;font-size:12px;color:var(--text-muted);}
 
 /* role switcher tabs */
@@ -54,29 +57,29 @@ input,select,textarea{font-family:inherit;font-size:14px;}
 .nav-group-content{overflow:hidden;transition:max-height .3s cubic-bezier(0.22,1,0.36,1),opacity .25s ease;max-height:600px;opacity:1;}
 .nav-group-content.collapsed{max-height:0;opacity:0;}
 .nav-group-label{display:flex;align-items:center;gap:8px;padding:4px 10px 8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;}
-.nav-group-label.admin{color:var(--navy);}
+.nav-group-label.admin{color:var(--teal);}
 .nav-group-label.staff{color:var(--coral);}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-size:13.5px;cursor:pointer;border:none;background:none;width:100%;text-align:left;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-size:13.5px;cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:background .15s,color .15s;}
 .nav-item:hover{background:var(--surface-2);}
-.nav-item.active{background:var(--teal-light);color:var(--teal-dark);font-weight:500;}
+.nav-item.active{background:var(--teal-light);color:var(--teal);font-weight:500;box-shadow:inset 3px 0 0 var(--teal);}
 .nav-item .dot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;}
-.nav-item.active .dot{background:var(--teal);}
+.nav-item.active .dot{background:var(--teal);box-shadow:0 0 6px var(--teal-glow);}
 
 /* pulse ECG divider - signature element */
 .pulse-divider{margin:10px 16px 4px;height:26px;}
 .pulse-divider svg{width:100%;height:100%;}
-.pulse-line{fill:none;stroke:var(--border);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
-.pulse-glow{fill:none;stroke:var(--teal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40 300;animation:pulse-run 3.2s linear infinite;opacity:.85;}
+.pulse-line{fill:none;stroke:rgba(255,255,255,0.08);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.pulse-glow{fill:none;stroke:var(--teal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40 300;animation:pulse-run 3.2s linear infinite;opacity:.85;filter:drop-shadow(0 0 4px rgba(0,212,170,0.4));}
 @keyframes pulse-run{to{stroke-dashoffset:-340;}}
 
 /* MAIN */
 #main{flex:1;min-width:0;display:flex;flex-direction:column;}
-#topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 26px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5;}
-#topbar .left h2{font-size:17px;}
+#topbar{background:rgba(10,18,14,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:14px 26px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5;}
+#topbar .left h2{font-size:17px;color:#fff;}
 #topbar .left p{margin:2px 0 0;font-size:12px;color:var(--text-muted);}
 .topbar-right{display:flex;align-items:center;gap:18px;}
 .sync-pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);background:var(--surface-2);padding:5px 10px;border-radius:20px;}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:blink 1.8s ease-in-out infinite;}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:blink 1.8s ease-in-out infinite;box-shadow:0 0 6px var(--teal-glow);}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
 .clock{font-size:12px;color:var(--text-muted);}
 .bell{position:relative;font-size:18px;background:none;border:none;color:var(--text);}
@@ -91,69 +94,76 @@ input,select,textarea{font-family:inherit;font-size:14px;}
 .grid-3{grid-template-columns:repeat(3,minmax(0,1fr));}
 .grid-2{grid-template-columns:repeat(2,minmax(0,1fr));}
 @media(max-width:1000px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr));}.grid-3{grid-template-columns:repeat(2,minmax(0,1fr));}}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+.card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color .2s;}
+.card:hover{border-color:rgba(0,212,170,0.15);}
 .stat-card .label{font-size:12px;color:var(--text-muted);margin-bottom:6px;}
-.stat-card .value{font-size:26px;font-family:'Fraunces',serif;font-weight:600;}
+.stat-card .value{font-size:26px;font-family:'Fraunces',serif;font-weight:600;color:#fff;}
 .stat-card .sub{font-size:11.5px;color:var(--ok);margin-top:4px;}
 .section-title{display:flex;align-items:center;justify-content:space-between;margin:26px 0 12px;}
-.section-title h3{font-size:15px;}
+.section-title h3{font-size:15px;color:#fff;}
 .section-title:first-child{margin-top:0;}
 
 /* buttons */
-.btn{border:1px solid var(--border);background:var(--surface);padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text);}
-.btn:hover{background:var(--surface-2);}
-.btn-primary{background:var(--teal);border-color:var(--teal);color:#fff;}
-.btn-primary:hover{background:var(--teal-dark);}
-.btn-danger{background:var(--danger-light);border-color:var(--danger-light);color:var(--danger);}
+.btn{border:1px solid var(--border);background:var(--surface-2);padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text);transition:all .15s;}
+.btn:hover{background:var(--surface-3);border-color:rgba(255,255,255,0.12);}
+.btn-primary{background:linear-gradient(135deg,var(--teal),var(--teal-dark));border-color:var(--teal);color:#fff;box-shadow:0 2px 12px rgba(0,212,170,0.25);}
+.btn-primary:hover{box-shadow:0 4px 20px rgba(0,212,170,0.35);transform:translateY(-1px);}
+.btn-danger{background:var(--danger-light);border-color:rgba(255,107,107,0.2);color:var(--danger);}
 .btn-sm{padding:5px 10px;font-size:12px;}
 .btn-icon{width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:7px;}
 
 /* table */
-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+table{width:100%;border-collapse:collapse;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
 thead th{background:var(--surface-2);text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);padding:10px 14px;font-weight:600;}
 tbody td{padding:11px 14px;border-top:1px solid var(--border);font-size:13.5px;vertical-align:middle;}
+tbody tr{transition:background .15s;}
 tbody tr:hover{background:var(--surface-2);}
-.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.table-wrap{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
 .table-wrap table{border:none;}
 
 /* badges */
 .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:500;}
-.badge.pending{background:#FCF3D9;color:#8A6300;}
-.badge.confirmed{background:var(--teal-light);color:var(--teal-dark);}
-.badge.completed{background:var(--surface-2);color:var(--text-muted);}
+.badge.pending{background:rgba(255,200,50,0.12);color:#FFD040;}
+.badge.confirmed{background:var(--teal-light);color:var(--teal);}
+.badge.completed{background:rgba(255,255,255,0.06);color:var(--text-muted);}
 .badge.cancelled{background:var(--danger-light);color:var(--danger);}
-.badge.available{background:var(--teal-light);color:var(--teal-dark);}
+.badge.available{background:var(--teal-light);color:var(--teal);}
 .badge.leave{background:var(--danger-light);color:var(--danger);}
-.badge.busy{background:#FCF3D9;color:#8A6300;}
+.badge.busy{background:rgba(255,200,50,0.12);color:#FFD040;}
 
 /* forms / modal */
-.overlay{position:fixed;inset:0;background:rgba(20,35,30,.4);display:none;align-items:center;justify-content:center;z-index:50;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;}
 .overlay.open{display:flex;}
-.modal{background:var(--surface);border-radius:14px;padding:22px 24px;width:420px;max-width:92vw;max-height:88vh;overflow-y:auto;}
-.modal h3{font-size:16px;margin-bottom:14px;}
+.modal{background:rgba(15,25,20,0.97);backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:14px;padding:22px 24px;width:420px;max-width:92vw;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-lg);}
+.modal h3{font-size:16px;margin-bottom:14px;color:#fff;}
 .field{margin-bottom:12px;}
-.field label{display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px;}
-.field input,.field select,.field textarea{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);}
+.field label{display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px;font-weight:500;}
+.field input,.field select,.field textarea{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.04);color:var(--text);transition:border-color .2s,box-shadow .2s;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,212,170,0.1);}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,0.2);}
 .field textarea{resize:vertical;min-height:60px;}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;}
 .empty{padding:40px 20px;text-align:center;color:var(--text-muted);font-size:13.5px;}
 .empty i{display:block;font-size:12px;color:var(--text-muted);margin-top:4px;}
 .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px;flex-wrap:wrap;}
-.toolbar input[type=search]{padding:8px 12px;border:1px solid var(--border);border-radius:8px;width:220px;background:var(--surface);}
+.toolbar input[type=search]{padding:8px 12px;border:1px solid var(--border);border-radius:8px;width:220px;background:rgba(255,255,255,0.04);color:var(--text);transition:border-color .2s;}
+.toolbar input[type=search]:focus{outline:none;border-color:var(--teal);}
+.toolbar select{padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.04);color:var(--text);}
 .actions-cell{display:flex;gap:6px;}
 
 /* queue */
-.queue-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);margin-bottom:8px;}
-.queue-num{width:30px;height:30px;border-radius:50%;background:var(--coral-light);color:#A8481E;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-shrink:0;}
+.queue-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,0.03);margin-bottom:8px;transition:border-color .2s;}
+.queue-item:hover{border-color:rgba(0,212,170,0.2);}
+.queue-num{width:30px;height:30px;border-radius:50%;background:var(--coral-light);color:var(--coral);font-weight:600;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-shrink:0;}
 .queue-item .info{flex:1;min-width:0;}
-.queue-item .info .pname{font-weight:500;}
+.queue-item .info .pname{font-weight:500;color:#fff;}
 .queue-item .info .meta{font-size:12px;color:var(--text-muted);}
 .queue-actions{display:flex;gap:6px;}
 
 /* toast */
 #toast-wrap{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:100;}
-.toast{background:var(--navy);color:#fff;padding:11px 16px;border-radius:8px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.15);animation:toast-in .2s ease;}
-.toast.err{background:var(--danger);}
+.toast{background:rgba(10,20,15,0.95);border:1px solid var(--border);color:#fff;padding:11px 16px;border-radius:8px;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,.3);backdrop-filter:blur(12px);animation:toast-in .2s ease;}
+.toast.err{background:rgba(40,10,10,0.95);border-color:rgba(255,107,107,0.3);color:var(--danger);}
 @keyframes toast-in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 
 /* branding preview */
@@ -163,7 +173,7 @@ tbody tr:hover{background:var(--surface-2);}
 /* analytics bars */
 .bar-chart{display:flex;align-items:flex-end;gap:10px;height:160px;padding-top:10px;}
 .bar-chart .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
-.bar-chart .bar{width:100%;background:var(--teal);border-radius:6px 6px 0 0;transition:height .4s ease;}
+.bar-chart .bar{width:100%;background:linear-gradient(180deg,var(--teal),var(--teal-dark));border-radius:6px 6px 0 0;transition:height .4s ease;box-shadow:0 0 8px rgba(0,212,170,0.2);}
 .bar-chart .bar-label{font-size:11px;color:var(--text-muted);}
 .bar-chart .bar-value{font-size:11px;color:var(--text);font-weight:500;}
 
@@ -172,21 +182,32 @@ tbody tr:hover{background:var(--surface-2);}
 .toggle-row:first-child{border-top:none;}
 .switch{position:relative;width:38px;height:22px;flex-shrink:0;}
 .switch input{opacity:0;width:0;height:0;}
-.slider{position:absolute;inset:0;background:var(--border);border-radius:20px;transition:.2s;cursor:pointer;}
+.slider{position:absolute;inset:0;background:var(--surface-3);border-radius:20px;transition:.2s;cursor:pointer;}
 .slider:before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
-input:checked + .slider{background:var(--teal);}
+input:checked + .slider{background:var(--teal);box-shadow:0 0 8px rgba(0,212,170,0.3);}
 input:checked + .slider:before{transform:translateX(16px);}
+
+/* sidebar footer / logout */
+.sidebar-footer{margin-top:auto;padding:10px;border-top:1px solid var(--border);background:rgba(0,0,0,0.15);}
+.sidebar-footer .user-info{padding:6px 12px;font-size:11px;color:var(--text-muted);margin-bottom:6px;}
+.sidebar-footer .nav-item{color:var(--danger);}
+.sidebar-footer .nav-item:hover{background:var(--danger-light);}
+.sidebar-footer .nav-item .dot{background:var(--danger);}
 
 .hint{font-size:12px;color:var(--text-muted);margin-top:-6px;margin-bottom:14px;}
 
 @media(max-width:820px){
   #sidebar{position:fixed;left:0;top:0;z-index:40;margin-left:-250px;box-shadow:0 0 0 9999px rgba(0,0,0,0);}
-  #sidebar.open{margin-left:0;box-shadow:0 0 40px rgba(0,0,0,.2);}
+  #sidebar.open{margin-left:0;box-shadow:0 0 40px rgba(0,0,0,.5);}
   #content{padding:18px;}
   .grid-4,.grid-3,.grid-2{grid-template-columns:1fr 1fr;}
   #menu-btn{display:inline-flex !important;}
 }
-#menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:8px;width:34px;height:34px;align-items:center;justify-content:center;margin-right:8px;}
+#menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:8px;width:34px;height:34px;align-items:center;justify-content:center;margin-right:8px;color:var(--text);}
+
+/* select dark style */
+select{appearance:auto;}
+select option{background:#0D1A12;color:var(--text);}
 
 /* ===== ANIMATIONS ===== */
 @media (prefers-reduced-motion: reduce) {
@@ -218,7 +239,7 @@ input:checked + .slider:before{transform:translateX(16px);}
 }
 .card-hover:hover {
   transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(20, 40, 35, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 212, 170, 0.08);
 }
 
 /* table row entrance */
@@ -299,7 +320,7 @@ input:checked + .slider:before{transform:translateX(16px);}
   100% { background-position: 400px 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, var(--surface-2) 25%, var(--bg) 50%, var(--surface-2) 75%);
+  background: linear-gradient(90deg, var(--surface-2) 25%, rgba(255,255,255,0.04) 50%, var(--surface-2) 75%);
   background-size: 800px 100%;
   animation: shimmer 1.5s ease-in-out infinite;
   border-radius: 6px;
@@ -329,23 +350,21 @@ input:checked + .slider:before{transform:translateX(16px);}
       <p>Admin Hospital Module</p>
     </div>
 
-    <div class="role-tabs">
-      <button class="role-tab active" data-role="admin">● Admin</button>
-      <button class="role-tab" data-role="staff">● Staff</button>
-    </div>
-
-    <div class="nav-group" id="admin-nav">
-      <div class="nav-group-content">
-        <button class="nav-item active" data-view="admin-dashboard"><span class="dot"></span>Admin dashboard</button>
-        <button class="nav-item" data-view="admin-profile"><span class="dot"></span>Hospital profile</button>
-        <button class="nav-item" data-view="admin-branding"><span class="dot"></span>Branding</button>
-        <button class="nav-item" data-view="admin-departments"><span class="dot"></span>Departments</button>
-        <button class="nav-item" data-view="admin-doctors"><span class="dot"></span>Doctors</button>
-        <button class="nav-item" data-view="admin-schedules"><span class="dot"></span>Schedules</button>
-        <button class="nav-item" data-view="admin-availability"><span class="dot"></span>Availability</button>
-        <button class="nav-item" data-view="admin-appointments"><span class="dot"></span>Appointment management</button>
-        <button class="nav-item" data-view="admin-staff"><span class="dot"></span>Staff management</button>
-        <button class="nav-item" data-view="admin-analytics"><span class="dot"></span>Analytics</button>
+    <div id="admin-nav" style="display:none;">
+      <div class="nav-group">
+        <div class="nav-group-content">
+          <div class="nav-group-label admin">Admin Panel</div>
+          <button class="nav-item active" data-view="admin-dashboard"><span class="dot"></span>Admin dashboard</button>
+          <button class="nav-item" data-view="admin-profile"><span class="dot"></span>Hospital profile</button>
+          <button class="nav-item" data-view="admin-branding"><span class="dot"></span>Branding</button>
+          <button class="nav-item" data-view="admin-departments"><span class="dot"></span>Departments</button>
+          <button class="nav-item" data-view="admin-doctors"><span class="dot"></span>Doctors</button>
+          <button class="nav-item" data-view="admin-schedules"><span class="dot"></span>Schedules</button>
+          <button class="nav-item" data-view="admin-availability"><span class="dot"></span>Availability</button>
+          <button class="nav-item" data-view="admin-appointments"><span class="dot"></span>Appointment management</button>
+          <button class="nav-item" data-view="admin-staff"><span class="dot"></span>Staff management</button>
+          <button class="nav-item" data-view="admin-analytics"><span class="dot"></span>Analytics</button>
+        </div>
       </div>
     </div>
 
@@ -358,6 +377,7 @@ input:checked + .slider:before{transform:translateX(16px);}
 
     <div class="nav-group" id="staff-nav" style="display:none;">
       <div class="nav-group-content">
+        <div class="nav-group-label staff">Staff Panel</div>
         <button class="nav-item" data-view="staff-dashboard"><span class="dot"></span>Staff dashboard</button>
         <button class="nav-item" data-view="staff-today"><span class="dot"></span>Today's appointments</button>
         <button class="nav-item" data-view="staff-checkin"><span class="dot"></span>Patient check-in</button>
@@ -365,6 +385,11 @@ input:checked + .slider:before{transform:translateX(16px);}
         <button class="nav-item" data-view="staff-availability"><span class="dot"></span>Doctor availability</button>
         <button class="nav-item" data-view="staff-profile"><span class="dot"></span>Staff profile / notifications</button>
       </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-info" id="userDisplay"></div>
+      <button class="nav-item" onclick="logout()"><span class="dot"></span>Logout</button>
     </div>
   </aside>
 
@@ -395,6 +420,42 @@ input:checked + .slider:before{transform:translateX(16px);}
 <div id="toast-wrap"></div>
 
 <script>
+/* ================= AUTH CHECK ================= */
+(function(){
+  const auth = sessionStorage.getItem('hospital_auth');
+  if(!auth){
+    window.location.href = 'index.html';
+    return;
+  }
+  try{
+    const a = JSON.parse(auth);
+    if(!a.loggedIn || (a.role!=='admin' && a.role!=='staff')){
+      window.location.href = 'index.html';
+      return;
+    }
+  }catch(e){
+    window.location.href = 'index.html';
+    return;
+  }
+})();
+
+let currentUser = null;
+let currentRole = null;
+(function loadAuth(){
+  try{
+    const auth = JSON.parse(sessionStorage.getItem('hospital_auth'));
+    currentUser = auth.user;
+    currentRole = auth.role;
+  }catch(e){
+    window.location.href = 'index.html';
+  }
+})();
+
+function logout(){
+  sessionStorage.removeItem('hospital_auth');
+  window.location.href = 'index.html';
+}
+
 /* ================= STORAGE / STATE ================= */
 const STORE_KEY = 'hospital-module-data';
 const SHARED = true;
@@ -654,7 +715,14 @@ const VIEW_META = {
 
 document.querySelectorAll('.nav-item').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    currentView = btn.dataset.view;
+    const view = btn.dataset.view;
+    if(!view) return;
+    // Staff can only access staff views
+    if(currentRole === 'staff' && view.startsWith('admin-')){
+      toast('Access denied. Staff cannot access admin panel.', true);
+      return;
+    }
+    currentView = view;
     document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('sidebar').classList.remove('open');
@@ -664,6 +732,14 @@ document.querySelectorAll('.nav-item').forEach(btn=>{
 
 /* ================= RENDER ROUTER ================= */
 function render(){
+  // Enforce role-based access
+  if(currentRole === 'staff' && currentView.startsWith('admin-')){
+    currentView = 'staff-dashboard';
+    document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+    const btn = document.querySelector('.nav-item[data-view="staff-dashboard"]');
+    if(btn) btn.classList.add('active');
+    toast('Access denied. Redirected to staff dashboard.', true);
+  }
   const meta = VIEW_META[currentView];
   document.getElementById('viewTitle').textContent = meta.title;
   document.getElementById('viewSub').textContent = meta.sub;
@@ -717,14 +793,29 @@ function render(){
 /* ================= ADMIN: DASHBOARD ================= */
 function renderAdminDashboard(){
   const today = todayStr();
-  const todaysApts = state.appointments.filter(a=>a.date===today).length;
+  const todaysApts = state.appointments.filter(a=>a.date===today);
+  const totalBooked = state.appointments.filter(a=>a.status==='confirmed').length;
+  const totalCompleted = state.appointments.filter(a=>a.status==='completed').length;
+  const totalCancelled = state.appointments.filter(a=>a.status==='cancelled').length;
+  const totalPending = state.appointments.filter(a=>a.status==='pending').length;
+  const activeQueue = state.queue.filter(q=>q.status!=='done').length;
+  const availableDocs = state.doctors.filter(d=>d.availability==='available').length;
   return `
   <div class="grid grid-4">
-    <div class="card stat-card"><div class="label">Total doctors</div><div class="value">${state.doctors.length}</div><div class="sub">across ${state.departments.length} departments</div></div>
+    <div class="card stat-card"><div class="label">Total doctors</div><div class="value">${state.doctors.length}</div><div class="sub">${availableDocs} available now</div></div>
     <div class="card stat-card"><div class="label">Total staff</div><div class="value">${state.staff.length}</div><div class="sub">active members</div></div>
-    <div class="card stat-card"><div class="label">Today's appointments</div><div class="value">${todaysApts}</div><div class="sub">as of now</div></div>
+    <div class="card stat-card"><div class="label">Today's appointments</div><div class="value">${todaysApts.length}</div><div class="sub">as of now</div></div>
     <div class="card stat-card"><div class="label">Total patients</div><div class="value">${state.patients.length}</div><div class="sub">on record</div></div>
   </div>
+  <div class="section-title"><h3>Appointment statistics</h3></div>
+  <div class="grid grid-4">
+    <div class="card stat-card"><div class="label">Booked</div><div class="value" style="color:var(--teal);">${totalBooked}</div></div>
+    <div class="card stat-card"><div class="label">Completed</div><div class="value" style="color:var(--ok);">${totalCompleted}</div></div>
+    <div class="card stat-card"><div class="label">Pending</div><div class="value" style="color:#FFD040;">${totalPending}</div></div>
+    <div class="card stat-card"><div class="label">Cancelled</div><div class="value" style="color:var(--danger);">${totalCancelled}</div></div>
+  </div>
+  <div class="section-title"><h3>Live queue</h3></div>
+  <div class="card"><div style="font-size:13px;color:var(--text-muted);">${activeQueue} patients in queue</div></div>
   <div class="section-title"><h3>This week's appointment load</h3></div>
   <div class="card">${weekBarChart()}</div>
   <div class="section-title"><h3>Recent appointments</h3></div>
@@ -1260,7 +1351,7 @@ function renderStaffAvailability(){
 
 /* ================= STAFF: PROFILE / NOTIFICATIONS ================= */
 function renderStaffProfile(){
-  const me = state.staff[0] || {name:'', role:'', phone:'', shift:''};
+  const me = state.staff.find(s=>s.name.toLowerCase().includes(currentUser.toLowerCase())) || state.staff[0] || {name:'', role:'', phone:'', shift:''};
   const notifs = state.notifications.slice(0,10).map(n=>`
     <div style="padding:10px 0;border-top:1px solid var(--border);font-size:13px;">
       ${escapeHtml(n.text)}
@@ -1283,8 +1374,8 @@ function renderStaffProfile(){
   </div>`;
 }
 async function saveStaffProfile(){
-  if(!state.staff[0]) state.staff[0] = {id:uid('stf')};
-  const me = state.staff[0];
+  let me = state.staff.find(s=>s.name.toLowerCase().includes(currentUser.toLowerCase())) || state.staff[0];
+  if(!me){ me = {id:uid('stf')}; state.staff.push(me); }
   me.name = document.getElementById('sp_name').value.trim();
   me.role = document.getElementById('sp_role').value.trim();
   me.shift = document.getElementById('sp_shift').value.trim();
@@ -1301,49 +1392,6 @@ function filterTable(input, tableId){
 function wireDynamicHandlers(){
   // card hover lift
   document.querySelectorAll('.card').forEach(c => c.classList.add('card-hover'));
-
-  // role tab switcher (Admin / Staff)
-  const roleTabs = document.querySelectorAll('.role-tab');
-  if (roleTabs.length && !roleTabs[0]._bound) {
-    roleTabs.forEach(tab => {
-      tab._bound = true;
-      tab.addEventListener('click', () => {
-        const role = tab.dataset.role;
-        // update active tab
-        roleTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-
-        const adminNav = document.getElementById('admin-nav');
-        const staffNav = document.getElementById('staff-nav');
-        const adminContent = adminNav.querySelector('.nav-group-content');
-        const staffContent = staffNav.querySelector('.nav-group-content');
-
-        if (role === 'admin') {
-          // collapse staff, show admin
-          staffContent.classList.add('collapsed');
-          setTimeout(() => {
-            staffNav.style.display = 'none';
-            adminNav.style.display = '';
-            // force reflow before removing collapsed
-            adminContent.offsetHeight;
-            adminContent.classList.remove('collapsed');
-            // stagger in nav items
-            anim.staggerIn(adminContent, '.nav-item', { stagger: 30, duration: 150, offsetY: 6 });
-          }, 200);
-        } else {
-          // collapse admin, show staff
-          adminContent.classList.add('collapsed');
-          setTimeout(() => {
-            adminNav.style.display = 'none';
-            staffNav.style.display = '';
-            staffContent.offsetHeight;
-            staffContent.classList.remove('collapsed');
-            anim.staggerIn(staffContent, '.nav-item', { stagger: 30, duration: 150, offsetY: 6 });
-          }, 200);
-        }
-      });
-    });
-  }
 
   // sidebar mobile drawer
   const menuBtn = document.getElementById('menu-btn');
@@ -1397,6 +1445,27 @@ setInterval(pollSync, 4000);
 (async function boot(){
   await loadState();
   lastSnapshot = JSON.stringify(state);
+
+  // Role-based sidebar
+  const adminNav = document.getElementById('admin-nav');
+  const staffNav = document.getElementById('staff-nav');
+  const userDisplay = document.getElementById('userDisplay');
+  if(currentRole === 'admin'){
+    adminNav.style.display = '';
+    staffNav.style.display = '';
+    userDisplay.textContent = 'Admin: ' + currentUser;
+    currentView = 'admin-dashboard';
+  }else{
+    adminNav.style.display = 'none';
+    staffNav.style.display = '';
+    userDisplay.textContent = 'Staff: ' + currentUser;
+    currentView = 'staff-dashboard';
+  }
+  // activate correct nav item
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  const activeBtn = document.querySelector(`.nav-item[data-view="${currentView}"]`);
+  if(activeBtn) activeBtn.classList.add('active');
+
   tickClock();
   render();
 })();

@@ -8,45 +8,149 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F6F8F7;
-  --surface:#FFFFFF;
-  --surface-2:#EEF3F1;
-  --teal:#0E6F5C;
-  --teal-dark:#095045;
-  --navy:#16324F;
-  --text:#1C2B27;
-  --text-muted:#64756F;
-  --border:#DEE6E2;
-  --danger:#C0392B;
-  --danger-light:#FBE8E6;
+  --bg:#0B0F1A;
+  --surface:rgba(255,255,255,0.04);
+  --surface-2:rgba(255,255,255,0.08);
+  --teal:#00D4AA;
+  --teal-dark:#00B894;
+  --teal-glow:rgba(0,212,170,0.15);
+  --navy:#0B0F1A;
+  --text:#E8F0F2;
+  --text-muted:#7A8A9E;
+  --border:rgba(255,255,255,0.1);
+  --danger:#FF6B6B;
+  --danger-light:rgba(255,107,107,0.15);
   --radius:10px;
-  --shadow:0 1px 2px rgba(20,40,35,0.04);
+  --shadow:0 1px 2px rgba(0,0,0,0.3);
 }
 *{box-sizing:border-box;}
-body{margin:0;background:var(--navy);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden;position:relative;}
 h2{font-family:'Fraunces',serif;font-weight:600;margin:0;}
 button{font-family:inherit;cursor:pointer;}
 input{font-family:inherit;font-size:14px;}
 
-.login-card{background:var(--surface);border-radius:16px;padding:34px 32px;width:380px;max-width:100%;box-shadow:0 20px 50px rgba(0,0,0,.25);}
-.brand-mark{width:46px;height:46px;border-radius:12px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin-bottom:16px;}
-.login-card h2{font-size:20px;margin-bottom:4px;}
-.sub{font-size:12.5px;color:var(--text-muted);margin-bottom:22px;}
-.role-toggle{display:flex;gap:8px;margin-bottom:16px;background:var(--surface-2);padding:4px;border-radius:10px;}
-.role-toggle button{flex:1;border:none;background:none;padding:9px 0;border-radius:7px;font-size:13px;font-weight:500;color:var(--text-muted);}
-.role-toggle button.active{background:var(--surface);color:var(--teal-dark);box-shadow:var(--shadow);}
-.field{margin-bottom:12px;}
-.field label{display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px;}
-.field input{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);}
-.login-error{background:var(--danger-light);color:var(--danger);font-size:12.5px;padding:9px 12px;border-radius:8px;margin-bottom:14px;display:none;}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(0,212,170,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(22,50,79,0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0,180,148,0.06) 0%, transparent 70%);
+}
+
+.grid-bg{
+  position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+
+.orb{
+  position:fixed;border-radius:50%;filter:blur(80px);z-index:0;pointer-events:none;
+}
+.orb-1{width:400px;height:400px;background:rgba(0,212,170,0.08);top:-100px;left:-100px;animation:float1 12s ease-in-out infinite;}
+.orb-2{width:300px;height:300px;background:rgba(22,50,79,0.4);bottom:-50px;right:-80px;animation:float2 15s ease-in-out infinite;}
+.orb-3{width:200px;height:200px;background:rgba(0,184,148,0.06);top:50%;left:60%;animation:float3 10s ease-in-out infinite;}
+
+@keyframes float1{0%,100%{transform:translate(0,0);}50%{transform:translate(30px,20px);}}
+@keyframes float2{0%,100%{transform:translate(0,0);}50%{transform:translate(-20px,-30px);}}
+@keyframes float3{0%,100%{transform:translate(0,0);}50%{transform:translate(-15px,25px);}}
+
+.pulse-ring{
+  position:fixed;width:600px;height:600px;border-radius:50%;
+  border:1px solid rgba(0,212,170,0.06);
+  top:50%;left:50%;transform:translate(-50%,-50%);z-index:0;pointer-events:none;
+  animation:pulseRing 4s ease-in-out infinite;
+}
+.pulse-ring:nth-child(2){width:800px;height:800px;animation-delay:1s;}
+.pulse-ring:nth-child(3){width:1000px;height:1000px;animation-delay:2s;}
+@keyframes pulseRing{0%,100%{opacity:0.3;transform:translate(-50%,-50%) scale(1);}50%{opacity:0.6;transform:translate(-50%,-50%) scale(1.05);}}
+
+.ecg-line{
+  position:fixed;bottom:15%;left:0;width:100%;height:60px;z-index:0;pointer-events:none;opacity:0.12;
+}
+.ecg-line svg{width:100%;height:100%;}
+.ecg-path{fill:none;stroke:var(--teal);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;animation:drawEcg 3s linear infinite;}
+@keyframes drawEcg{to{stroke-dashoffset:-600;}}
+
+.login-card{
+  position:relative;z-index:1;
+  background:rgba(15,20,35,0.85);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;padding:36px 32px;width:400px;max-width:100%;
+  box-shadow:0 30px 60px rgba(0,0,0,0.4),0 0 80px rgba(0,212,170,0.05);
+}
+.brand-mark{
+  width:50px;height:50px;border-radius:14px;
+  background:linear-gradient(135deg,var(--teal),var(--teal-dark));
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin-bottom:18px;
+  box-shadow:0 4px 20px rgba(0,212,170,0.3);
+}
+.login-card h2{font-size:22px;margin-bottom:4px;color:#fff;}
+.sub{font-size:12.5px;color:var(--text-muted);margin-bottom:24px;}
+.role-toggle{display:flex;gap:4px;margin-bottom:18px;background:rgba(255,255,255,0.05);padding:4px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);}
+.role-toggle button{flex:1;border:none;background:none;padding:10px 0;border-radius:9px;font-size:13px;font-weight:500;color:var(--text-muted);transition:all .2s ease;}
+.role-toggle button.active{background:rgba(0,212,170,0.12);color:var(--teal);box-shadow:0 2px 8px rgba(0,212,170,0.15);}
+.role-toggle button:hover:not(.active){color:var(--text);}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:500;}
+.field input{
+  width:100%;padding:11px 14px;
+  border:1px solid rgba(255,255,255,0.1);border-radius:10px;
+  background:rgba(255,255,255,0.05);color:#fff;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field input::placeholder{color:rgba(255,255,255,0.25);}
+.field input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,212,170,0.1);}
+.pass-wrap{position:relative;}
+.pass-wrap input{padding-right:42px;}
+.eye-btn{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  width:32px;height:32px;border:none;background:none;
+  color:var(--text-muted);font-size:16px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  transition:color .2s,background .2s;cursor:pointer;
+}
+.eye-btn:hover{color:var(--teal);background:rgba(255,255,255,0.06);}
+.eye-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.login-error{background:var(--danger-light);color:var(--danger);font-size:12.5px;padding:10px 14px;border-radius:10px;margin-bottom:14px;display:none;border:1px solid rgba(255,107,107,0.2);}
 .login-error.show{display:block;}
-.btn-primary{width:100%;padding:11px 0;margin-top:4px;background:var(--teal);border:1px solid var(--teal);color:#fff;border-radius:8px;font-size:13.5px;font-weight:500;}
-.btn-primary:hover{background:var(--teal-dark);}
-.login-hint{font-size:11.5px;color:var(--text-muted);margin-top:14px;text-align:center;}
-.mono{font-family:'IBM Plex Mono',monospace;}
+.btn-primary{
+  width:100%;padding:12px 0;margin-top:6px;
+  background:linear-gradient(135deg,var(--teal),var(--teal-dark));
+  border:none;color:#fff;border-radius:10px;
+  font-size:14px;font-weight:600;letter-spacing:0.3px;
+  box-shadow:0 4px 20px rgba(0,212,170,0.3);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(0,212,170,0.4);}
+.btn-primary:active{transform:translateY(0);}
+.login-hint{font-size:11px;color:var(--text-muted);margin-top:16px;text-align:center;line-height:1.6;opacity:0.7;}
+.mono{font-family:'IBM Plex Mono',monospace;color:var(--teal);font-size:10.5px;}
+
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0 16px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08);}
+.divider span{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;}
+
+.footer-text{position:fixed;bottom:16px;left:0;right:0;text-align:center;font-size:11px;color:rgba(255,255,255,0.2);z-index:1;}
 </style>
 </head>
 <body>
+
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="pulse-ring"></div>
+<div class="pulse-ring"></div>
+<div class="pulse-ring"></div>
+<div class="ecg-line">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+    <path class="ecg-path" d="M0,30 L200,30 L220,30 L240,10 L260,50 L280,30 L300,30 L500,30 L520,30 L540,10 L560,50 L580,30 L600,30 L800,30 L820,30 L840,10 L860,50 L880,30 L900,30 L1200,30"/>
+  </svg>
+</div>
 
 <div class="login-card">
   <div class="brand-mark">SC</div>
@@ -61,14 +165,29 @@ input{font-family:inherit;font-size:14px;}
   <div class="login-error" id="loginError">Invalid username or password.</div>
 
   <div class="field"><label>Username</label><input id="login_user" placeholder="e.g. admin" autocomplete="username"></div>
-  <div class="field"><label>Password</label><input id="login_pass" type="password" placeholder="Enter password" autocomplete="current-password"></div>
+  <div class="field"><label>Password</label><div class="pass-wrap"><input id="login_pass" type="password" placeholder="Enter password" autocomplete="current-password"><button type="button" class="eye-btn" onclick="togglePass()" title="Show/hide password"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
 
   <button class="btn-primary" onclick="attemptLogin()">Sign in as <span id="loginRoleLabel">Admin</span></button>
 
-  <p class="login-hint">Demo credentials — Admin: <span class="mono">admin / admin123</span> · Staff: <span class="mono">staff / staff123</span></p>
+  <div class="divider"><span>Demo Access</span></div>
+  <p class="login-hint">Admin: <span class="mono">admin / admin123</span><br>Staff: <span class="mono">staff / staff123</span></p>
 </div>
 
+<div class="footer-text">SehatConnectAI &copy; 2026 — Secure Hospital Portal</div>
+
 <script>
+(function(){
+  const auth = sessionStorage.getItem('hospital_auth');
+  if(auth){
+    try{
+      const a = JSON.parse(auth);
+      if(a.loggedIn && (a.role==='admin'||a.role==='staff')){
+        window.location.href = 'hospital-module.html?role='+encodeURIComponent(a.role)+'&user='+encodeURIComponent(a.user);
+        return;
+      }
+    }catch(e){}
+  }
+})();
 let loginRole = 'admin';
 
 const DEMO_CREDENTIALS = {
@@ -81,6 +200,18 @@ function selectRole(role){
   document.querySelectorAll('.role-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.role===role));
   document.getElementById('loginRoleLabel').textContent = role==='admin' ? 'Admin' : 'Staff';
   document.getElementById('loginError').classList.remove('show');
+}
+
+function togglePass(){
+  const inp = document.getElementById('login_pass');
+  const btn = inp.parentElement.querySelector('.eye-btn');
+  if(inp.type === 'password'){
+    inp.type = 'text';
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+  }else{
+    inp.type = 'password';
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  }
 }
 
 function attemptLogin(){
@@ -97,7 +228,7 @@ function attemptLogin(){
 
   if(user === cred.username && pass === cred.password){
     errBox.classList.remove('show');
-    // Redirect to the main dashboard, passing the role + username in the URL
+    sessionStorage.setItem('hospital_auth', JSON.stringify({role: loginRole, user: user, loggedIn: true}));
     const target = 'hospital-module.html?role=' + encodeURIComponent(loginRole) + '&user=' + encodeURIComponent(user);
     window.location.href = target;
   }else{
